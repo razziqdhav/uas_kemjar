@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Warga</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <span class="logo">Dashboard Warga</span>
+            <nav>
+                <span>Halo, <strong id="display-name">User</strong></span>
+                <button onclick="logout()">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-grid">
+        <div class="card col-side">
+            <h3>Buat Laporan Baru</h3><hr style="margin: 10px 0;"><br>
+            <input type="hidden" id="edit-id">
+            <div class="form-group">
+                <label>Lokasi Tumpukan Sampah</label>
+                <input type="text" id="lap-lokasi" placeholder="Misal: Jalan Diponegoro">
+            </div>
+            <div class="form-group">
+                <label>Keterangan/Deskripsi</label>
+                <textarea id="lap-desk"></textarea>
+            </div>
+            <div class="form-group" id="file-box">
+                <label>Upload Foto (Opsional, Max 2MB)</label>
+                <input type="file" id="lap-file" accept="image/*">
+            </div>
+            <button class="btn" onclick="simpanLaporan()">Kirim Laporan</button>
+        </div>
+
+        <div class="card col-main">
+            <h3>Riwayat Laporan Saya</h3><hr style="margin: 10px 0;">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lokasi</th>
+                            <th>Deskripsi</th>
+                            <th>Bukti Foto</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-riwayat"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/user.js"></script>
+</body>
+</html>

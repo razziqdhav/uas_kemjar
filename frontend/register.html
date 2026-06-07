@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Akun Warga Baru</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <span class="logo">🗑️ LaporSampah</span>
+            <nav>
+                <a href="index.html">Kembali ke Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card card-center" style="border-top: 4px solid var(--secondary);">
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--text);">Registrasi Warga</h2>
+            <div class="form-group">
+                <label>Nama Lengkap Resmi</label>
+                <input type="text" id="reg-name" placeholder="Contoh: Ahmad Subagja">
+            </div>
+            <div class="form-group">
+                <label>Buat Username Unik</label>
+                <input type="text" id="reg-user" placeholder="Gunakan huruf kecil/angka tanpa spasi">
+            </div>
+            <div class="form-group">
+                <label>Kata Sandi Kuat (Password)</label>
+                <input type="password" id="reg-pass" placeholder="Minimal 8 karakter kombinasi">
+            </div>
+            <button class="btn btn-secondary" onclick="executeRegister()">Daftar Akun Baru</button>
+            <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+                Sudah terdaftar sebelumnya? <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Login di sini</a>
+            </p>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; font-size: 13px; color: #7f8c8d;">
+        <p>&copy; 2026 Tim Blue Team Informatika ITENAS - Proyek Hardening Skema Aplikasi Aman.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html>

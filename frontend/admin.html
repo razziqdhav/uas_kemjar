@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Security Center</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <span class="logo" style="color: #c0392b;">🛡️ Admin Panel</span>
+            <nav>
+                <button onclick="pindahTab('laporan')">Data Aduan</button>
+                <button id="nav-user" onclick="pindahTab('users')">Kelola User</button>
+                <button id="nav-log" onclick="pindahTab('logs')">Security Logs</button>
+                <button onclick="logout()">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="tab-laporan" class="card">
+            <h3>Validasi Seluruh Aduan Masuk</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Waktu & Pelapor</th><th>Detail Lokasi & Keterangan</th><th>Foto</th><th>Status</th><th>Aksi</th></tr>
+                    </thead>
+                    <tbody id="adm-laporan"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="tab-users" class="card hidden">
+            <h3>Manajemen Akses Sistem (RBAC)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>Nama/Username</th><th>Role Asli</th><th>Ubah Role</th></tr>
+                    </thead>
+                    <tbody id="adm-users"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="tab-logs" class="card hidden">
+            <h3>Sistem Pemantauan Keamanan (SIEM)</h3>
+            <button class="btn btn-sm btn-secondary" onclick="muatLogs()" style="margin-bottom: 10px;">🔄 Segarkan Log</button>
+            <div class="terminal" id="term-logs"></div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

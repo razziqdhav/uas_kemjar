@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Lapor Sampah</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">🗑️ LaporSampah</a>
+            <nav><a href="index.html">Home</a><a href="register.html">Daftar</a></nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card card-center">
+            <h2 style="text-align: center; margin-bottom: 20px;">Masuk ke Sistem</h2>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="log-user" placeholder="Masukkan username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="log-pass" placeholder="Masukkan password">
+            </div>
+            <button class="btn" onclick="executeLogin()">Login</button>
+            <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+                Belum punya akun? <a href="register.html" style="color: var(--secondary);">Daftar di sini</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
