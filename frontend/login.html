@@ -3,32 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Lapor Sampah</title>
+    <title>Masuk - EcoLapor</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* CSS Khusus untuk memusatkan kotak Login */
+        .auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--bg-body); padding: 20px; }
+        .auth-card { background: var(--bg-card); padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; border: 1px solid var(--border); border-top: 5px solid var(--primary); }
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-header h1 { color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 5px; }
+        .auth-header p { color: var(--text-muted); font-size: 0.9rem; }
+        .auth-footer { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
+        .auth-footer a { color: var(--primary); font-weight: 600; text-decoration: none; }
+        .auth-footer a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <a href="index.html" class="logo">🗑️ LaporSampah</a>
-            <nav><a href="index.html">Home</a><a href="register.html">Daftar</a></nav>
-        </div>
-    </header>
 
-    <div class="container">
-        <div class="card card-center">
-            <h2 style="text-align: center; margin-bottom: 20px;">Masuk ke Sistem</h2>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🌍 EcoLapor</h1>
+                <p>Silakan masuk ke akun Anda</p>
+            </div>
+            
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="log-user" placeholder="Masukkan username">
+                <input type="text" id="log-user" class="form-input" placeholder="Masukkan username">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="log-pass" placeholder="Masukkan password">
+                <input type="password" id="log-pass" class="form-input" placeholder="Masukkan password">
             </div>
-            <button class="btn" onclick="executeLogin()">Login</button>
-            <p style="text-align: center; margin-top: 15px; font-size: 14px;">
-                Belum punya akun? <a href="register.html" style="color: var(--secondary);">Daftar di sini</a>
-            </p>
+            
+            <button class="btn-primary" onclick="executeLogin()">Masuk Sistem</button>
+            
+            <div class="auth-footer">
+                Belum punya akun? <a href="register.html">Daftar Warga Baru</a>
+            </div>
         </div>
     </div>
 

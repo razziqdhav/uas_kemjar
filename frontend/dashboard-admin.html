@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Lapor Sampah</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-table-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), 0 10px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background-color: #f8fafc; color: var(--primary-dark); font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        tr:hover { background-color: #f1f5f9; }
+        td { font-size: 0.95rem; color: var(--text-main); }
+        .select-status { padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); font-weight: 600; cursor: pointer; outline: none; background-color: #fff; transition: 0.3s; }
+        .select-status:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1); }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <h2>⚙ Admin Panel</h2>
+            <nav style="margin-top: 2rem;">
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active">Daftar Pengaduan</a></li>
+                    <li><a href="#" id="logoutBtn" style="color: #fca5a5;">Keluar Sistem</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header-title">
+                <h1>Daftar Pengaduan Masuk</h1>
+                <p>Validasi laporan warga dan perbarui status penanganan sampah di lapangan.</p>
+            </div>
+
+            <div class="admin-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pelapor</th>
+                            <th>Lokasi Kejadian</th>
+                            <th>Deskripsi</th>
+                            <th>Bukti Foto</th>
+                            <th>Status Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 30px; color: var(--text-muted); font-style: italic;">Memuat seluruh data pengaduan...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role') || localStorage.getItem('userRole'); // Menyesuaikan dengan logika Anda
+        
+        if (!token || (role !== 'Admin' && role !== 'Petugas')) {
+            window.location.href = 'login.html';
+        }
+
+        // Fungsi Keamanan (XSS Protection)
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        async function fetchAllLaporan() {
+            try {
+                const res = await fetch('http://localhost:3000/api/admin/laporan', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                const tbody = document.getElementById('adminTableBody');
+                tbody.innerHTML = '';
+
+                if(data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;">Belum ada laporan masuk.</td></tr>';
+                    return;
+                }
+
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><strong style="color: var(--primary);">@${escapeHTML(item.reporter)}</strong></td>
+                            <td style="font-weight: 500;">${escapeHTML(item.lokasi)}</td>
+                            <td style="color: var(--text-muted);">${escapeHTML(item.deskripsi)}</td>
+                            <td>
+                                ${item.fileUrl ? `<a href="http://localhost:3000${item.fileUrl}" target="_blank" style="color: var(--primary-light); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:5px;">📸 Lihat Foto</a>` : '<span style="color:#ccc;">Tidak ada foto</span>'}
+                            </td>
+                            <td>
+                                <select class="select-status" onchange="updateStatus(${item.id}, this.value)" style="color: ${item.status === 'Pending' ? 'var(--warning)' : 'var(--success)'};">
+                                    <option value="Pending" ${item.status === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
+                                    <option value="Selesai" ${item.status === 'Selesai' ? 'selected' : ''}>✅ Selesai</option>
+                                </select>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                console.error(err);
+                document.getElementById('adminTableBody').innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Gagal memuat data.</td></tr>';
+            }
+        }
+
+        async function updateStatus(id, newStatus) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/admin/laporan/${id}`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                if(response.ok) {
+                    alert('Status penanganan berhasil diubah!');
+                    fetchAllLaporan(); // Refresh warna dropdown
+                }
+            } catch (err) {
+                alert('Gagal merubah status koneksi server.');
+            }
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+
+        fetchAllLaporan();
+    </script>
+</body>
+</html>

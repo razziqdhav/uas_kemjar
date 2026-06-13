@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Warga - Lapor Sampah</title>
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <h2>🌍 EcoLapor</h2>
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active">Dasbor Utama</a></li>
+                    <li><a href="#" id="logoutBtn" style="color: #fca5a5;">Keluar Aplikasi</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header-title">
+                <h1>Kirim Laporan Baru</h1>
+                <p>Bantu jaga kebersihan lingkungan dengan melaporkan titik timbunan sampah liar.</p>
+            </div>
+            
+            <div class="grid-layout">
+                
+                <div class="card-data">
+                    <h2 class="card-title">Form Pengaduan</h2>
+                    <form id="laporForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="lokasi">Titik Lokasi (Alamat Lengkap)</label>
+                            <input type="text" id="lokasi" class="form-input" placeholder="Contoh: Jl. Diponegoro KM 4, Samping Apotek" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Keterangan / Deskripsi Kondisi</label>
+                            <textarea id="deskripsi" class="form-input" rows="4" placeholder="Rincian kondisi di lapangan (misal: sudah menumpuk 3 hari, bau menyengat)..." required style="resize: vertical;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="fotoSampah">Unggah Bukti Foto (Maks. 2MB)</label>
+                            <input type="file" id="fotoSampah" class="form-input" accept="image/png, image/jpeg, image/jpg" required style="padding: 9px;">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kirim Laporan Sekarang</button>
+                    </form>
+                </div>
+
+                <div class="card-data">
+                    <h2 class="card-title">Riwayat Laporan Saya</h2>
+                    <div id="laporanContainer" style="max-height: 600px; overflow-y: auto; padding-right: 10px;">
+                        <p style="color: var(--text-muted); font-style: italic;">Memuat riwayat laporan dari server...</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = 'login.html';
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        async function fetchLaporan() {
+            try {
+                const res = await fetch('http://localhost:3000/api/lapor', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                const container = document.getElementById('laporanContainer');
+                container.innerHTML = '';
+
+                if (!res.ok) throw new Error(data.pesan || "Error server");
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;">Belum ada laporan yang Anda kirim.</p>';
+                    return;
+                }
+
+                data.forEach(item => {
+                    const isPending = item.status.toLowerCase() === 'pending';
+                    const badgeClass = isPending ? 'badge-pending' : 'badge-success';
+                    const statusText = isPending ? 'Menunggu Penanganan' : 'Telah Ditangani';
+
+                    container.innerHTML += `
+                        <div class="history-item">
+                            <h3>${escapeHTML(item.lokasi)}</h3>
+                            <p>${escapeHTML(item.deskripsi)}</p>
+                            ${item.fileUrl ? `<img src="http://localhost:3000${item.fileUrl}" class="history-img" alt="Bukti Laporan">` : ''}
+                            <div><span class="badge ${badgeClass}">${escapeHTML(statusText)}</span></div>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                console.error(err);
+                document.getElementById('laporanContainer').innerHTML = '<p style="color: var(--danger);">Gagal memuat data dari server.</p>';
+            }
+        }
+
+        document.getElementById('laporForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnSubmit = e.target.querySelector('button');
+            btnSubmit.innerHTML = 'Mengirim...';
+            btnSubmit.disabled = true;
+
+            const formData = new FormData();
+            formData.append('lokasi', document.getElementById('lokasi').value);
+            formData.append('deskripsi', document.getElementById('deskripsi').value);
+            formData.append('fotoSampah', document.getElementById('fotoSampah').files[0]);
+
+            try {
+                const response = await fetch('http://localhost:3000/api/lapor', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert(data.message || data.pesan || 'Laporan berhasil dikirim!');
+                    document.getElementById('laporForm').reset();
+                    fetchLaporan(); 
+                } else {
+                    alert(data.error || data.pesan || 'Gagal mengirim laporan.');
+                }
+            } catch (err) {
+                alert('Gagal menghubungi server database.');
+            } finally {
+                btnSubmit.innerHTML = 'Kirim Laporan Sekarang';
+                btnSubmit.disabled = false;
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+
+        fetchLaporan();
+    </script>
+</body>
+</html>

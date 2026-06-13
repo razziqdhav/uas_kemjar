@@ -3,44 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Akun Warga Baru</title>
+    <title>Daftar - EcoLapor</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* CSS Khusus untuk memusatkan kotak Register */
+        .auth-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--bg-body); padding: 20px; }
+        .auth-card { background: var(--bg-card); padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 450px; border: 1px solid var(--border); border-top: 5px solid var(--primary-light); }
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-header h1 { color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 5px; }
+        .auth-header p { color: var(--text-muted); font-size: 0.9rem; }
+        .auth-footer { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
+        .auth-footer a { color: var(--primary); font-weight: 600; text-decoration: none; }
+        .auth-footer a:hover { text-decoration: underline; }
+        .system-footer { margin-top: 30px; text-align: center; font-size: 0.8rem; color: #94a3b8; }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <span class="logo">🗑️ LaporSampah</span>
-            <nav>
-                <a href="index.html">Kembali ke Login</a>
-            </nav>
-        </div>
-    </header>
 
-    <div class="container">
-        <div class="card card-center" style="border-top: 4px solid var(--secondary);">
-            <h2 style="text-align: center; margin-bottom: 20px; color: var(--text);">Registrasi Warga</h2>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Registrasi Warga</h1>
+                <p>Buat akun baru untuk mulai melaporkan</p>
+            </div>
+            
             <div class="form-group">
                 <label>Nama Lengkap Resmi</label>
-                <input type="text" id="reg-name" placeholder="Contoh: Ahmad Subagja">
+                <input type="text" id="reg-name" class="form-input" placeholder="Contoh: Ahmad Subagja">
             </div>
             <div class="form-group">
                 <label>Buat Username Unik</label>
-                <input type="text" id="reg-user" placeholder="Gunakan huruf kecil/angka tanpa spasi">
+                <input type="text" id="reg-user" class="form-input" placeholder="Gunakan huruf kecil tanpa spasi">
             </div>
             <div class="form-group">
-                <label>Kata Sandi Kuat (Password)</label>
-                <input type="password" id="reg-pass" placeholder="Minimal 8 karakter kombinasi">
+                <label>Kata Sandi (Password)</label>
+                <input type="password" id="reg-pass" class="form-input" placeholder="Minimal 8 karakter">
             </div>
-            <button class="btn btn-secondary" onclick="executeRegister()">Daftar Akun Baru</button>
-            <p style="text-align: center; margin-top: 15px; font-size: 14px;">
-                Sudah terdaftar sebelumnya? <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Login di sini</a>
-            </p>
+            
+            <button class="btn-primary" onclick="executeRegister()">Daftar Akun Sekarang</button>
+            
+            <div class="auth-footer">
+                Sudah terdaftar sebelumnya? <a href="login.html">Masuk di sini</a>
+            </div>
+        </div>
+
+        <div class="system-footer">
+            &copy; 2026 Tim Blue Team Informatika ITENAS<br>Proyek Hardening Skema Aplikasi Aman.
         </div>
     </div>
-
-    <footer style="text-align: center; padding: 20px; font-size: 13px; color: #7f8c8d;">
-        <p>&copy; 2026 Tim Blue Team Informatika ITENAS - Proyek Hardening Skema Aplikasi Aman.</p>
-    </footer>
 
     <script src="js/script.js"></script>
     <script src="js/register.js"></script>

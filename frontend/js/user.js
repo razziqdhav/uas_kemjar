@@ -53,35 +53,55 @@ async function simpanLaporan() {
 
     if (!lokasi || !deskripsi) return alert("Lokasi dan Deskripsi wajib diisi!");
 
-    if (!id) {
-        // Create Data (Secure File Upload FormData)
-        let formData = new FormData();
-        formData.append('lokasi', lokasi);
-        formData.append('deskripsi', deskripsi);
-        if (fileInput.files[0]) formData.append('fotoSampah', fileInput.files[0]);
+    try {
+        let responseData; // Variabel untuk menampung balasan dari backend
 
-        const res = await fetch(`${API_URL}/lapor`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` },
-            body: formData
-        });
-        alert((await res.json()).message);
-    } else {
-        // Update Data (Text only JSON)
-        const res = await fetch(`${API_URL}/lapor/${id}`, {
-            method: 'PUT',
-            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ lokasi, deskripsi })
-        });
-        alert((await res.json()).message);
-        document.getElementById('edit-id').value = '';
-        document.getElementById('file-box').classList.remove('hidden');
+        if (!id) {
+            // Create Data (Secure File Upload FormData)
+            let formData = new FormData();
+            formData.append('lokasi', lokasi);
+            formData.append('deskripsi', deskripsi);
+            if (fileInput.files[0]) formData.append('fotoSampah', fileInput.files[0]);
+
+            const res = await fetch(`${API_URL}/lapor`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            
+            responseData = await res.json();
+            console.log("Respon Backend (Simpan):", responseData); 
+            
+            // Fallback pesan aman untuk mencegah 'undefined'
+            alert(responseData.message || responseData.pesan || "Laporan berhasil dikirim!");
+
+        } else {
+            // Update Data (Text only JSON)
+            const res = await fetch(`${API_URL}/lapor/${id}`, {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lokasi, deskripsi })
+            });
+            
+            responseData = await res.json();
+            console.log("Respon Backend (Update):", responseData);
+            
+            alert(responseData.message || responseData.pesan || "Laporan berhasil diupdate!");
+            
+            document.getElementById('edit-id').value = '';
+            document.getElementById('file-box').classList.remove('hidden');
+        }
+        
+        // Kosongkan form setelah selesai
+        document.getElementById('lap-lokasi').value = '';
+        document.getElementById('lap-desk').value = '';
+        document.getElementById('lap-file').value = '';
+        muatRiwayat();
+
+    } catch (error) {
+        console.error("Gagal menyimpan laporan:", error);
+        alert("Terjadi kesalahan pada server saat menyimpan laporan.");
     }
-    
-    document.getElementById('lap-lokasi').value = '';
-    document.getElementById('lap-desk').value = '';
-    document.getElementById('lap-file').value = '';
-    muatRiwayat();
 }
 
 function editData(id, lok, desk) {
@@ -93,10 +113,20 @@ function editData(id, lok, desk) {
 
 async function hapusData(id) {
     if(!confirm('Yakin ingin menghapus laporan ini?')) return;
-    const res = await fetch(`${API_URL}/lapor/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-    });
-    alert((await res.json()).message);
-    muatRiwayat();
+    
+    try {
+        const res = await fetch(`${API_URL}/lapor/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const responseData = await res.json();
+        console.log("Respon Backend (Hapus):", responseData);
+        
+        alert(responseData.message || responseData.pesan || "Laporan berhasil dihapus!");
+        muatRiwayat();
+    } catch (error) {
+        console.error("Gagal menghapus laporan:", error);
+        alert("Terjadi kesalahan pada server saat menghapus laporan.");
+    }
 }

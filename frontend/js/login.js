@@ -3,7 +3,7 @@ window.onload = () => {
     const token = localStorage.getItem('token');
     if (token) {
         const role = localStorage.getItem('role');
-        window.location.href = (role === 'Admin' || role === 'Petugas') ? 'admin.html' : 'user.html';
+        window.location.href = (role === 'Admin' || role === 'Petugas') ? 'dashboard-admin.html' : 'dashboard-user.html';
     }
 };
 
@@ -30,7 +30,7 @@ async function executeLogin() {
             
             alert(data.message);
             // Pengalihan berdasarkan role (RBAC)
-            window.location.href = (data.user.role === 'Admin' || data.user.role === 'Petugas') ? 'admin.html' : 'user.html';
+            window.location.href = (data.user.role === 'Admin' || data.user.role === 'Petugas') ? 'dashboard-admin.html' : 'dashboard-user.html';
         } else {
             alert(data.message || "Login gagal.");
         }
