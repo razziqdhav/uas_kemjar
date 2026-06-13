@@ -1,101 +1,171 @@
 # EcoLapor
 
-## Deskripsi Proyek
+## Sistem Pelaporan dan Monitoring Pengelolaan Sampah Berbasis Web dengan Implementasi Keamanan Aplikasi dan Infrastruktur
 
-EcoLapor merupakan aplikasi berbasis web yang dikembangkan untuk membantu masyarakat dalam melaporkan dan mengelola permasalahan terkait lingkungan dan pengelolaan sampah. Aplikasi ini memungkinkan pengguna untuk melakukan pelaporan, pengelolaan data, serta pemantauan informasi secara terintegrasi melalui web browser.
+### Mata Kuliah
+Keamanan Jaringan (IFB-302)
 
-Proyek ini dikembangkan sebagai tugas Evaluasi Akhir Semester Mata Kuliah Keamanan Jaringan Program Studi Informatika Institut Teknologi Nasional Bandung dengan fokus pada implementasi keamanan aplikasi dan infrastruktur.
+### Program Studi
+Informatika
+
+### Institut
+Institut Teknologi Nasional Bandung
+
+### Kelompok
+- Razziq Dhavino Rafadhillah (152023091)
+- Muhammad Rafly Al Ghifari Ramdhani (152023117)
+- Amsa Efraim Cicio Tarigan (152023120)
+
+---
+
+# Deskripsi Proyek
+
+EcoLapor merupakan aplikasi berbasis web yang dikembangkan untuk membantu masyarakat dalam melaporkan permasalahan lingkungan dan pengelolaan sampah secara digital. Sistem memungkinkan pengguna untuk membuat laporan, mengunggah bukti pendukung, serta memantau status laporan yang telah dikirimkan.
+
+Selain menyediakan layanan pelaporan, EcoLapor juga dirancang dengan fokus pada keamanan aplikasi dan infrastruktur. Berbagai mekanisme keamanan diterapkan untuk melindungi data pengguna serta mendeteksi aktivitas mencurigakan yang dapat mengancam sistem.
+
+Proyek ini dikembangkan sebagai bagian dari Evaluasi Akhir Semester Mata Kuliah Keamanan Jaringan dengan pendekatan Blue Team dan Red Team yang mencakup implementasi keamanan serta penetration testing.
+
+---
+
+# Tujuan Proyek
+
+- Mengembangkan aplikasi pelaporan sampah berbasis web.
+- Menerapkan prinsip secure coding dalam pengembangan aplikasi.
+- Mengimplementasikan keamanan pada level aplikasi dan infrastruktur.
+- Menerapkan sistem monitoring dan deteksi serangan menggunakan Wazuh dan Suricata.
+- Melakukan pengujian keamanan melalui penetration testing.
+- Meningkatkan kesadaran terhadap pentingnya keamanan aplikasi web.
 
 ---
 
 # Fitur Utama
 
-* Registrasi dan Login Pengguna
-* Manajemen Data Pengguna
-* Pelaporan Permasalahan Lingkungan
-* Dashboard Monitoring
-* Role Based Access Control (RBAC)
-* Monitoring Keamanan Sistem
+## Fitur Pengguna
+
+- Registrasi akun
+- Login dan logout
+- Membuat laporan sampah
+- Mengunggah foto laporan
+- Melihat riwayat laporan
+- Melihat status penanganan laporan
+
+## Fitur Administrator
+
+- Login administrator
+- Mengelola data pengguna
+- Mengelola laporan yang masuk
+- Mengubah status laporan
+- Monitoring aktivitas sistem
+- Monitoring keamanan aplikasi
 
 ---
 
 # Teknologi yang Digunakan
 
-## Backend
-
-* Node.js
-* Express.js
-
 ## Frontend
+- HTML5
+- CSS3
+- JavaScript
 
-* HTML
-* CSS
-* JavaScript
+## Backend
+- Node.js
+- Express.js
 
 ## Database
-
-* MySQL / MariaDB
+- MariaDB / MySQL
 
 ## Web Server
+- Nginx
 
-* Nginx
-
-## Monitoring & Security
-
-* Wazuh SIEM
-* Suricata IDS
-* Telegram Notification
+## Security Monitoring
+- Wazuh SIEM
+- Suricata IDS
 
 ## Virtualisasi
-
-* Oracle VirtualBox
-* Ubuntu Server/Desktop
-* Kali Linux
+- Oracle VirtualBox
+- Ubuntu Server/Desktop
+- Kali Linux
 
 ---
 
 # Arsitektur Sistem
 
+```text
 Client Browser
-↓
+       │
+       ▼
 Nginx Reverse Proxy
-↓
-EcoLapor Web Application
-↓
-Database Server
+       │
+       ▼
+EcoLapor Application
+       │
+       ▼
+MariaDB Database
 
-Monitoring Layer
+
+Security Layer
 
 Suricata IDS
-↓
+       │
+       ▼
 Wazuh Manager
-↓
+       │
+       ▼
 Wazuh Dashboard
-↓
-Telegram Notification
+       │
+       ▼
+Administrator
+```
 
 ---
 
 # Implementasi Keamanan
 
-| Kontrol Keamanan         | Status |
-| ------------------------ | ------ |
-| Password Hashing         | ✅      |
-| Session Management       | ✅      |
-| Input Validation         | ✅      |
-| SQL Injection Protection | ✅      |
-| XSS Protection           | ✅      |
-| CSRF Protection          | ✅      |
-| Rate Limiting            | ✅      |
-| RBAC                     | ✅      |
-| Secure File Upload       | ✅      |
-| HTTPS/TLS                | ✅      |
-| Wazuh Monitoring         | ✅      |
-| Suricata IDS             | ✅      |
+Sistem menerapkan berbagai kontrol keamanan untuk melindungi aplikasi dari ancaman yang umum ditemukan pada aplikasi web.
+
+### Password Hashing
+Password pengguna tidak disimpan dalam bentuk plaintext melainkan dalam bentuk hash sehingga lebih aman apabila database mengalami kebocoran.
+
+### Session Management
+Session digunakan untuk mempertahankan autentikasi pengguna setelah berhasil login dan akan dihapus saat logout.
+
+### Input Validation
+Seluruh input pengguna divalidasi sebelum diproses oleh sistem untuk mencegah data berbahaya masuk ke aplikasi.
+
+### SQL Injection Protection
+Sistem menggunakan validasi input dan parameterized query untuk mengurangi risiko SQL Injection.
+
+### Cross Site Scripting (XSS) Protection
+Input pengguna difilter dan disanitasi sebelum ditampilkan kembali ke browser.
+
+### CSRF Protection
+Form penting menggunakan token validasi untuk mencegah serangan Cross Site Request Forgery.
+
+### Role Based Access Control (RBAC)
+Hak akses pengguna dibatasi sesuai dengan peran masing-masing.
+
+Role yang digunakan:
+- User
+- Administrator
+
+### Secure File Upload
+Upload file dibatasi berdasarkan:
+- Jenis file
+- Ukuran file
+- Validasi nama file
+
+### HTTPS/TLS
+Komunikasi antara client dan server menggunakan protokol HTTPS sehingga data yang dikirimkan terenkripsi.
+
+### Logging dan Monitoring
+Seluruh aktivitas penting dicatat dan dimonitor menggunakan:
+- Wazuh SIEM
+- Suricata IDS
 
 ---
 
-# Instalasi
+# Instalasi dan Konfigurasi
 
 ## Clone Repository
 
@@ -110,15 +180,21 @@ cd ecolapor
 npm install
 ```
 
-## Konfigurasi Environment
+## Membuat Database
 
-Buat file:
-
-```env
-.env
+```sql
+CREATE DATABASE ecolapor;
 ```
 
-Contoh konfigurasi:
+Import database:
+
+```bash
+mysql -u root -p ecolapor < database.sql
+```
+
+## Konfigurasi Environment
+
+Buat file `.env`
 
 ```env
 DB_HOST=localhost
@@ -144,29 +220,47 @@ node app.js
 
 # Konfigurasi Nginx
 
-Nginx digunakan sebagai reverse proxy untuk mengarahkan trafik HTTPS menuju aplikasi Node.js.
+Instalasi Nginx:
+
+```bash
+sudo apt update
+sudo apt install nginx -y
+```
+
+Verifikasi:
 
 ```bash
 sudo systemctl status nginx
 ```
 
+Nginx digunakan sebagai reverse proxy untuk mengarahkan trafik menuju aplikasi EcoLapor.
+
 ---
 
 # Implementasi HTTPS
 
-HTTPS diterapkan menggunakan SSL/TLS agar komunikasi antara client dan server terenkripsi.
+HTTPS digunakan untuk mengenkripsi komunikasi antara client dan server.
+
+Contoh pembuatan sertifikat SSL:
+
+```bash
+sudo openssl req -x509 -nodes -days 365 \
+-newkey rsa:2048 \
+-keyout server.key \
+-out server.crt
+```
 
 Verifikasi:
 
-```bash
-https://server-ip
+```text
+https://SERVER_IP
 ```
 
 ---
 
 # Implementasi Wazuh
 
-Instalasi Wazuh:
+Instalasi:
 
 ```bash
 curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh
@@ -179,7 +273,7 @@ Verifikasi:
 sudo systemctl status wazuh-manager
 ```
 
-Dashboard:
+Dashboard dapat diakses melalui:
 
 ```text
 https://SERVER_IP
@@ -201,9 +295,22 @@ Verifikasi:
 sudo systemctl status suricata
 ```
 
+Suricata digunakan untuk mendeteksi aktivitas jaringan yang mencurigakan seperti port scanning dan reconnaissance.
+
 ---
 
 # Pengujian Keamanan
+
+Pengujian dilakukan menggunakan pendekatan Red Team dan Blue Team.
+
+## Tools yang Digunakan
+
+- Nmap
+- Burp Suite
+- Gobuster
+- Nikto
+- Wazuh
+- Suricata
 
 ## Information Gathering
 
@@ -211,54 +318,80 @@ sudo systemctl status suricata
 nmap -sV TARGET_IP
 ```
 
+Hasil:
+- Port aktif berhasil diidentifikasi.
+
 ## Authentication Testing
 
-Pengujian login menggunakan kredensial tidak valid.
+Melakukan login menggunakan kredensial yang salah.
 
 Hasil:
-
-* Login ditolak oleh sistem.
+- Sistem berhasil menolak login yang tidak valid.
 
 ## Session Testing
 
-Pengujian logout dan session expiration.
+Melakukan logout dan menguji validitas session.
 
 Hasil:
-
-* Session berakhir setelah logout.
+- Session berakhir setelah logout.
 
 ## Access Control Testing
 
-Pengguna tidak dapat mengakses halaman yang tidak sesuai dengan hak aksesnya.
+Mencoba mengakses halaman administrator tanpa autentikasi.
 
-## IDS Monitoring
+Hasil:
+- Akses ditolak.
 
-Suricata berhasil mendeteksi aktivitas scanning menggunakan Nmap.
+## Directory Enumeration
 
-Contoh alert:
+Melakukan pencarian direktori menggunakan Gobuster.
+
+Hasil:
+- Tidak ditemukan direktori sensitif yang dapat diakses publik.
+
+## HTTPS Testing
+
+Memastikan seluruh komunikasi menggunakan HTTPS.
+
+Hasil:
+- Komunikasi terenkripsi dengan TLS.
+
+## IDS Testing
+
+Melakukan scanning menggunakan Nmap.
+
+Contoh:
+
+```bash
+nmap -sV TARGET_IP
+```
+
+Hasil:
 
 ```text
 NMAP SERVICE SCAN DETECTED
 ```
 
+Alert berhasil dideteksi oleh Suricata.
+
 ## SIEM Monitoring
 
-Alert keamanan berhasil diteruskan ke Wazuh Dashboard secara real-time.
+Alert keamanan berhasil diteruskan dan ditampilkan pada dashboard Wazuh secara real-time.
 
 ---
 
 # Hasil Pengujian
 
-| Pengujian              | Hasil    |
-| ---------------------- | -------- |
-| Information Gathering  | Berhasil |
-| Authentication Testing | Aman     |
-| Session Testing        | Aman     |
-| Access Control Testing | Aman     |
-| Directory Enumeration  | Aman     |
-| IDS Detection          | Berhasil |
-| Wazuh Monitoring       | Berhasil |
-| HTTPS Testing          | Berhasil |
+| Pengujian | Hasil |
+|------------|--------|
+| Information Gathering | Berhasil |
+| Authentication Testing | Aman |
+| Session Testing | Aman |
+| Access Control Testing | Aman |
+| Directory Enumeration | Aman |
+| HTTPS Testing | Berhasil |
+| IDS Detection | Berhasil |
+| Wazuh Monitoring | Berhasil |
 
 ---
 
@@ -272,28 +405,32 @@ EcoLapor/
 ├── database/
 ├── docs/
 ├── screenshots/
+├── package.json
 ├── README.md
-└── package.json
+└── .env
 ```
 
 ---
 
-# Tim Pengembang
+# Dokumentasi
 
-| Nama                               | NIM       |
-| ---------------------------------- | --------- |
-| Razziq Dhavino Rafadhillah         | 152023091 |
-| Muhammad Rafly Al Ghifari Ramdhani | 152023117 |
-| Amsa Efraim Cicio Tarigan          | 152023120 |
+Tambahkan screenshot berikut pada folder `screenshots`:
+
+- Dashboard EcoLapor
+- Dashboard Wazuh
+- Alert NMAP SERVICE SCAN DETECTED
+- Monitoring Suricata
+- Implementasi HTTPS
+- Hasil Pengujian Penetration Testing
 
 ---
 
-# Mata Kuliah
+# Kesimpulan
 
-Keamanan Jaringan (IFB-302)
+EcoLapor berhasil mengimplementasikan keamanan pada level aplikasi maupun infrastruktur. Pengujian keamanan menunjukkan bahwa sistem mampu mendeteksi aktivitas reconnaissance menggunakan Suricata serta menampilkan alert secara real-time melalui Wazuh Dashboard. Implementasi keamanan yang diterapkan mampu mengurangi risiko terhadap ancaman umum pada aplikasi web dan mendukung proses monitoring keamanan secara berkelanjutan.
 
-Program Studi Informatika
+---
 
-Institut Teknologi Nasional Bandung
+# Lisensi
 
-Tahun Akademik 2025/2026
+Proyek ini dibuat untuk keperluan akademik Mata Kuliah Keamanan Jaringan Program Studi Informatika Institut Teknologi Nasional Bandung.
