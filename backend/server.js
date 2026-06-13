@@ -16,6 +16,11 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(sanitizeMiddleware);
+
+// Serve Frontend Static Files
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Serve Uploads
 app.use('/uploads', express.static('uploads'));
 
 // Setup Secure Multer untuk Upload Gambar
@@ -219,6 +224,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Terjadi kesalahan sistem internal.' });
 });
 
-app.listen(PORT, () => {
-    console.log(`[BLUE TEAM ACTIVE] Secure Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`[BLUE TEAM ACTIVE] Secure Server running on http://localhost:${PORT}`);
 });
