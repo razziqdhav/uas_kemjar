@@ -1,40 +1,21 @@
-# Secure Barbershop Management System
+# EcoLapor
 
-## Deskripsi
+## Deskripsi Proyek
 
-Secure Barbershop Management System merupakan aplikasi berbasis web yang dikembangkan untuk membantu pengelolaan layanan barbershop secara digital. Sistem menyediakan fitur autentikasi pengguna, manajemen data pelanggan, reservasi layanan, dan dashboard administrasi.
+EcoLapor merupakan aplikasi berbasis web yang dikembangkan untuk membantu masyarakat dalam melaporkan dan mengelola permasalahan terkait lingkungan dan pengelolaan sampah. Aplikasi ini memungkinkan pengguna untuk melakukan pelaporan, pengelolaan data, serta pemantauan informasi secara terintegrasi melalui web browser.
 
-Selain fitur utama aplikasi, sistem juga menerapkan berbagai mekanisme keamanan pada application layer dan infrastructure layer sesuai dengan prinsip keamanan jaringan dan aplikasi.
-
----
-
-# Tujuan Proyek
-
-- Membangun aplikasi web yang aman dan mudah digunakan.
-- Menerapkan secure coding practices.
-- Mengimplementasikan monitoring keamanan menggunakan Wazuh dan Suricata.
-- Melakukan pengujian keamanan melalui metode penetration testing.
-- Memenuhi tugas Evaluasi Akhir Semester Mata Kuliah Keamanan Jaringan.
+Proyek ini dikembangkan sebagai tugas Evaluasi Akhir Semester Mata Kuliah Keamanan Jaringan Program Studi Informatika Institut Teknologi Nasional Bandung dengan fokus pada implementasi keamanan aplikasi dan infrastruktur.
 
 ---
 
-# Fitur Aplikasi
+# Fitur Utama
 
-## User
-
-- Registrasi akun
-- Login dan logout
-- Melihat layanan barbershop
-- Melakukan reservasi
-- Melihat riwayat reservasi
-
-## Admin
-
-- Login admin
-- Mengelola data pelanggan
-- Mengelola layanan barbershop
-- Mengelola reservasi
-- Monitoring aktivitas pengguna
+* Registrasi dan Login Pengguna
+* Manajemen Data Pengguna
+* Pelaporan Permasalahan Lingkungan
+* Dashboard Monitoring
+* Role Based Access Control (RBAC)
+* Monitoring Keamanan Sistem
 
 ---
 
@@ -42,98 +23,75 @@ Selain fitur utama aplikasi, sistem juga menerapkan berbagai mekanisme keamanan 
 
 ## Backend
 
-- Java
-- Spring Boot
-- Spring Security
-- Maven
+* Node.js
+* Express.js
 
 ## Frontend
 
-- HTML
-- CSS
-- JavaScript
-- Bootstrap
+* HTML
+* CSS
+* JavaScript
 
 ## Database
 
-- MariaDB / MySQL
+* MySQL / MariaDB
 
 ## Web Server
 
-- Nginx
+* Nginx
 
-## Security Monitoring
+## Monitoring & Security
 
-- Wazuh SIEM
-- Suricata IDS
+* Wazuh SIEM
+* Suricata IDS
+* Telegram Notification
 
-## Virtualization
+## Virtualisasi
 
-- Oracle VirtualBox
-- Ubuntu Server/Desktop
-- Kali Linux
-
----
-
-# Implementasi Keamanan
-
-| Fitur Keamanan | Status |
-|---------------|---------|
-| Password Hashing | ✅ |
-| Session Management | ✅ |
-| Input Validation | ✅ |
-| SQL Injection Protection | ✅ |
-| Cross Site Scripting (XSS) Protection | ✅ |
-| CSRF Protection | ✅ |
-| HTTPS/TLS | ✅ |
-| Role Based Access Control | ✅ |
-| Logging Security Events | ✅ |
-| Wazuh SIEM Monitoring | ✅ |
-| Suricata IDS Detection | ✅ |
+* Oracle VirtualBox
+* Ubuntu Server/Desktop
+* Kali Linux
 
 ---
 
 # Arsitektur Sistem
 
-```text
-+------------+
-|   User     |
-+------------+
-       |
-       v
-+----------------+
-| Nginx HTTPS    |
-| Reverse Proxy  |
-+----------------+
-       |
-       v
-+----------------+
-| Spring Boot    |
-| Application    |
-+----------------+
-       |
-       v
-+----------------+
-| MariaDB        |
-+----------------+
+Client Browser
+↓
+Nginx Reverse Proxy
+↓
+EcoLapor Web Application
+↓
+Database Server
 
 Monitoring Layer
 
-+------------+
-| Suricata   |
-+------------+
-       |
-       v
-+------------+
-| Wazuh      |
-| Manager    |
-+------------+
-       |
-       v
-+------------+
-| Dashboard  |
-+------------+
-```
+Suricata IDS
+↓
+Wazuh Manager
+↓
+Wazuh Dashboard
+↓
+Telegram Notification
+
+---
+
+# Implementasi Keamanan
+
+| Kontrol Keamanan         | Status |
+| ------------------------ | ------ |
+| Password Hashing         | ✅      |
+| Session Management       | ✅      |
+| Input Validation         | ✅      |
+| SQL Injection Protection | ✅      |
+| XSS Protection           | ✅      |
+| CSRF Protection          | ✅      |
+| Rate Limiting            | ✅      |
+| RBAC                     | ✅      |
+| Secure File Upload       | ✅      |
+| HTTPS/TLS                | ✅      |
+| Wazuh Monitoring         | ✅      |
+| Suricata IDS             | ✅      |
 
 ---
 
@@ -142,59 +100,73 @@ Monitoring Layer
 ## Clone Repository
 
 ```bash
-git clone https://github.com/USERNAME/REPOSITORY.git
-cd REPOSITORY
+git clone https://github.com/USERNAME/ecolapor.git
+cd ecolapor
 ```
 
----
-
-## Konfigurasi Database
-
-Buat database baru:
-
-```sql
-CREATE DATABASE barbershop_db;
-```
-
-Import file database:
+## Install Dependency
 
 ```bash
-mysql -u root -p barbershop_db < database.sql
+npm install
 ```
 
----
+## Konfigurasi Environment
 
-## Konfigurasi Application Properties
+Buat file:
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/barbershop_db
-spring.datasource.username=root
-spring.datasource.password=password
-
-spring.jpa.hibernate.ddl-auto=update
+```env
+.env
 ```
 
----
+Contoh konfigurasi:
+
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=ecolapor
+PORT=3000
+```
 
 ## Menjalankan Aplikasi
 
-Menggunakan Maven:
-
 ```bash
-mvn spring-boot:run
+npm start
 ```
 
 atau
 
 ```bash
-java -jar target/barbershop.jar
+node app.js
 ```
 
 ---
 
-# Instalasi Wazuh
+# Konfigurasi Nginx
 
-## Install Wazuh
+Nginx digunakan sebagai reverse proxy untuk mengarahkan trafik HTTPS menuju aplikasi Node.js.
+
+```bash
+sudo systemctl status nginx
+```
+
+---
+
+# Implementasi HTTPS
+
+HTTPS diterapkan menggunakan SSL/TLS agar komunikasi antara client dan server terenkripsi.
+
+Verifikasi:
+
+```bash
+https://server-ip
+```
+
+---
+
+# Implementasi Wazuh
+
+Instalasi Wazuh:
 
 ```bash
 curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh
@@ -207,12 +179,19 @@ Verifikasi:
 sudo systemctl status wazuh-manager
 ```
 
+Dashboard:
+
+```text
+https://SERVER_IP
+```
+
 ---
 
-# Instalasi Suricata
+# Implementasi Suricata
+
+Instalasi:
 
 ```bash
-sudo apt update
 sudo apt install suricata -y
 ```
 
@@ -232,21 +211,13 @@ sudo systemctl status suricata
 nmap -sV TARGET_IP
 ```
 
-## Directory Enumeration
-
-```bash
-gobuster dir -u https://TARGET_IP -w wordlist.txt
-```
-
 ## Authentication Testing
 
 Pengujian login menggunakan kredensial tidak valid.
 
 Hasil:
 
-```text
-Login ditolak oleh sistem.
-```
+* Login ditolak oleh sistem.
 
 ## Session Testing
 
@@ -254,64 +225,75 @@ Pengujian logout dan session expiration.
 
 Hasil:
 
-```text
-Session berakhir setelah logout.
-```
+* Session berakhir setelah logout.
 
-## Monitoring Testing
+## Access Control Testing
 
-Aktivitas scanning menggunakan Nmap berhasil dideteksi oleh Suricata dan ditampilkan pada dashboard Wazuh.
+Pengguna tidak dapat mengakses halaman yang tidak sesuai dengan hak aksesnya.
+
+## IDS Monitoring
+
+Suricata berhasil mendeteksi aktivitas scanning menggunakan Nmap.
 
 Contoh alert:
 
 ```text
 NMAP SERVICE SCAN DETECTED
-Source IP : 192.168.20.1
-Destination IP : 192.168.20.2
 ```
+
+## SIEM Monitoring
+
+Alert keamanan berhasil diteruskan ke Wazuh Dashboard secara real-time.
 
 ---
 
 # Hasil Pengujian
 
-| Pengujian | Hasil |
-|------------|--------|
-| Information Gathering | Port berhasil teridentifikasi |
-| Authentication Testing | Aman |
-| Session Testing | Aman |
-| Access Control Testing | Aman |
-| API Testing | Aman |
-| IDS Detection | Berhasil |
-| SIEM Monitoring | Berhasil |
-| HTTPS Testing | Berhasil |
+| Pengujian              | Hasil    |
+| ---------------------- | -------- |
+| Information Gathering  | Berhasil |
+| Authentication Testing | Aman     |
+| Session Testing        | Aman     |
+| Access Control Testing | Aman     |
+| Directory Enumeration  | Aman     |
+| IDS Detection          | Berhasil |
+| Wazuh Monitoring       | Berhasil |
+| HTTPS Testing          | Berhasil |
 
 ---
 
 # Struktur Project
 
 ```text
-project/
+EcoLapor/
 │
 ├── src/
+├── public/
 ├── database/
 ├── docs/
 ├── screenshots/
 ├── README.md
-└── pom.xml
+└── package.json
 ```
 
 ---
 
-# Kontributor
+# Tim Pengembang
 
-| Nama | Tugas |
-|--------|--------|
-| Muhammad Rafly Al Ghifari Ramdhani | Security Monitoring, Wazuh, Suricata, Penetration Testing |
-| Anggota 2 | Backend Development |
-| Anggota 3 | Frontend Development |
+| Nama                               | NIM       |
+| ---------------------------------- | --------- |
+| Razziq Dhavino Rafadhillah         | 152023091 |
+| Muhammad Rafly Al Ghifari Ramdhani | 152023117 |
+| Amsa Efraim Cicio Tarigan          | 152023120 |
 
 ---
 
-# Lisensi
+# Mata Kuliah
 
-Proyek ini dibuat untuk keperluan akademik Program Studi Informatika Institut Teknologi Nasional Bandung.
+Keamanan Jaringan (IFB-302)
+
+Program Studi Informatika
+
+Institut Teknologi Nasional Bandung
+
+Tahun Akademik 2025/2026
